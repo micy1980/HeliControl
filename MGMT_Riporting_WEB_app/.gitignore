@@ -1,0 +1,15 @@
+﻿node_modules/
+.env
+*.log
+server.log
+server.err.log
+server-runtime.out.log
+server-runtime.err.log
+data/*.db
+data/*.db-*
+data/backup/
+data/server.*.log
+Hibák/
+MS icons/
+.DS_Store
+Thumbs.db

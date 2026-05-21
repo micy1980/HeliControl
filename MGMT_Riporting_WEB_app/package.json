@@ -1,0 +1,13 @@
+{
+  "name": "mgm-reporting-codex",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Helyi halozaton futtathato MGM Reporting webalkalmazas.",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

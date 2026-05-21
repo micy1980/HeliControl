@@ -1,0 +1,1156 @@
+﻿<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MGM Reporting - riport előtti fejlesztési checklist</title>
+  <style>
+    :root {
+      --navy: #0d1726;
+      --navy-2: #142235;
+      --blue: #164f7d;
+      --line: #c8d6e4;
+      --panel: #ffffff;
+      --soft: #eef5fb;
+      --text: #102033;
+      --muted: #66768a;
+      --red: #b51e1e;
+      --amber: #9a6500;
+      --green: #24713a;
+      --shadow: 0 14px 34px rgba(12, 32, 54, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #e9eff5;
+      color: var(--text);
+      font-family: "Segoe UI", Arial, sans-serif;
+      line-height: 1.45;
+    }
+
+    header {
+      background: var(--navy);
+      color: #fff;
+      padding: 28px 36px;
+      border-bottom: 4px solid #274b72;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    header p {
+      margin: 0;
+      color: #b7c7dc;
+      font-size: 15px;
+    }
+
+    main {
+      max-width: 1320px;
+      margin: 24px auto 48px;
+      padding: 0 22px;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .metric {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 24px;
+      color: #12395e;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    section h2 {
+      margin: 0;
+      padding: 14px 18px;
+      background: linear-gradient(#f7fbff, #dfeaf3);
+      color: #12395e;
+      font-size: 19px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-body {
+      padding: 14px 18px 18px;
+    }
+
+    .note {
+      margin: 0 0 12px;
+      color: var(--muted);
+    }
+
+    .checklist {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-size: 14px;
+    }
+
+    .checklist th,
+    .checklist td {
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      vertical-align: top;
+      background: #fff;
+    }
+
+    .checklist th {
+      background: #dbe8f2;
+      text-align: left;
+      color: #18334d;
+      font-weight: 700;
+    }
+
+    .checklist td:first-child,
+    .checklist th:first-child {
+      width: 44px;
+      text-align: center;
+    }
+
+    .checklist td:nth-child(2),
+    .checklist th:nth-child(2) {
+      width: 128px;
+    }
+
+    .checklist td:nth-child(3),
+    .checklist th:nth-child(3) {
+      width: 220px;
+    }
+
+    .checklist tr:nth-child(even) td {
+      background: #f7fafc;
+    }
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #1674bd;
+      vertical-align: middle;
+    }
+
+    .tag {
+      display: inline-block;
+      min-width: 86px;
+      border-radius: 999px;
+      padding: 3px 9px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+
+    .p0 {
+      color: #fff;
+      background: var(--red);
+      border-color: #8b1111;
+    }
+
+    .p1 {
+      color: #fff;
+      background: var(--amber);
+      border-color: #7a5000;
+    }
+
+    .p2 {
+      color: #fff;
+      background: var(--blue);
+      border-color: #0d3a5e;
+    }
+
+    .p3 {
+      color: #1d4d2d;
+      background: #e8f6ed;
+      border-color: #9dceb0;
+    }
+
+    .phase {
+      display: inline-block;
+      margin-right: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      font-weight: 700;
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    ul {
+      margin: 8px 0 0 20px;
+      padding: 0;
+    }
+
+    li {
+      margin: 5px 0;
+    }
+
+    .decision {
+      border-left: 5px solid #1d73ad;
+      background: var(--soft);
+      padding: 12px 14px;
+      margin-bottom: 12px;
+    }
+
+    .priority-order {
+      border: 1px solid var(--line);
+      background: #fbfdff;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin: 0 0 14px;
+    }
+
+    .priority-order h3 {
+      margin: 0 0 8px;
+      color: #12395e;
+      font-size: 16px;
+    }
+
+    .priority-order ol {
+      margin: 0 0 0 22px;
+      padding: 0;
+    }
+
+    .priority-order li {
+      margin: 6px 0;
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+      padding: 10px 0 28px;
+    }
+
+    @media (max-width: 980px) {
+      .summary,
+      .grid-two {
+        grid-template-columns: 1fr;
+      }
+
+      .checklist {
+        table-layout: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>MGM Reporting - riport előtti fejlesztési checklist</h1>
+    <p>Állapotfelmérés és feladatlista a Management és Konszolidációs riport elkészítése előtt.</p>
+  </header>
+
+  <main>
+    <div class="summary">
+      <div class="metric">
+        <strong>P0</strong>
+        <span>Riportot blokkoló hibák és adatbiztonsági kockázatok</span>
+      </div>
+      <div class="metric">
+        <strong>P1</strong>
+        <span>Riport előtt javasolt stabilizálás</span>
+      </div>
+      <div class="metric">
+        <strong>P2</strong>
+        <span>Kényelmi, egységesítési és UX javítások</span>
+      </div>
+      <div class="metric">
+        <strong>P3</strong>
+        <span>Riport után is ráérő, de nyilvántartott tételek</span>
+      </div>
+    </div>
+
+    <section>
+      <h2>1. Riport Előtti Blokkolók</h2>
+      <div class="section-body">
+        <p class="note">Ezeket a riport felület építése előtt érdemes lezárni, mert közvetlenül érintik az adatok megbízhatóságát vagy a riport alapját.</p>
+        <table class="checklist">
+          <thead>
+            <tr>
+              <th>Kész</th>
+              <th>Prioritás</th>
+              <th>Terület</th>
+              <th>Feladat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>GL import validáció</td>
+              <td>A Tartozik/Követel és Balance eltérés minden esetben hard fájlhiba legyen. Az import ne kerülhessen be, ha az egyenleg nem egyezik két tizedes pontossággal.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>GL import validáció</td>
+              <td>A TFORG, KFORG, TEgy, KEgy, Egyenleg és minden importált számmező egységesen két tizedessel legyen értelmezve, tárolva és megjelenítve.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>COA import validáció</td>
+              <td>Duplikált GL szám az import fájlban hard hiba legyen, és még az adatbázis-felülírás előtt meg kell fogni. Nem maradhat olyan eset, ahol csak az egyik sor kerül be.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Főkönyvi kivonat</td>
+              <td>A főkönyvi kivonat validációs végpont és UI működjön stabilan. Ne jelenjen meg "Nincs ilyen végpont" üzenet.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Főkönyvi kivonat</td>
+              <td>A főkönyvi validáció csak aktív főkönyvi adatokból dolgozzon, és a Management/Konszi riportkód hiányát csak akkor jelezze, ha az adott GL-en bármelyik hónapban van érték.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Import session</td>
+              <td>Minden import kapjon egyértelmű import azonosítót/batch id-t, és ez jelenjen meg COA, GL, részletek és előzmények nézetben is.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Import előzmények</td>
+              <td>A COA import és GL import log/előzmény ne keveredjen. A számlatükörben COA importok, a GL importnál GL importok legyenek, vagy legyen külön szűrt import log menü.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Report törzsadat</td>
+              <td>A Management és Konszolidációs riport törzsek legyenek végleges, egységes táblázatos szerkesztőlogikán. Mentés, import template és csoporttörzs választás hibamentesen működjön.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>2. Ablakkezelés És Layout Stabilizálás</h2>
+      <div class="section-body">
+        <table class="checklist">
+          <thead>
+            <tr>
+              <th>Kész</th>
+              <th>Prioritás</th>
+              <th>Terület</th>
+              <th>Feladat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Belső ablakok</td>
+              <td>A teljes méret / visszaállítás gomb ténylegesen töltse ki a munkaterületet, ne csak vizuálisan változzon.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Belső ablakok</td>
+              <td>Dupla kattintás a belső ablak fejlécén váltson teljes méret és visszaállított méret között.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Belső ablakok</td>
+              <td>Átméretezés működjön mind a négy oldalon és a sarkokon is, ne csak jobb alsó sarokban.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Belső ablakok</td>
+              <td>A kezdő ablakméretek legyenek nagyobbak a sokoszlopos felületeken: COA import, GL import, import részletek, validációs lista, sorszabályok.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Belső ablakok</td>
+              <td>Státuszváltozás, validáció, figyelmeztetés vagy hiba ne változtassa meg az ablak méretét és pozícióját.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Renderelés</td>
+              <td>A programon belüli villogást, teljes újrarenderelési ugrásokat meg kell szüntetni. Mentés, pipa, validáció és törlés ne villantsa újra az egész ablakot.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p2">P2</span></td>
+              <td>ESC működés</td>
+              <td>ESC először nyitott oszlopválasztót vagy részpanelt zárjon, csak utána a legfelső belső ablakot.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>3. Scroll, Táblázat És Oszlopkezelés</h2>
+      <div class="section-body">
+        <table class="checklist">
+          <thead>
+            <tr>
+              <th>Kész</th>
+              <th>Prioritás</th>
+              <th>Terület</th>
+              <th>Feladat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Táblázatok</td>
+              <td>Minden sokoszlopos táblázatban működjön a függőleges és vízszintes scroll. A COA import preview és GL import preview lefelé is görgethető legyen.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Táblázatok</td>
+              <td>A fejléc maradjon látható, de ne akadályozza a táblatest scrollját. A táblázatkonténereknél min-height: 0 / overflow logikát egységesíteni kell.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Táblázatok</td>
+              <td>Felesleges vízszintes scroll ne jelenjen meg sorszabályoknál és egyszerű listáknál. Scroll csak akkor legyen, ha tényleg nem fér ki az adat.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Oszlopkezelés</td>
+              <td>Minden oszlopkezelős táblában lehessen kézzel oszlopot átrendezni. Kivétel: az 1-12 havi oszlopok sorrendje kötött.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Oszlopkezelés</td>
+              <td>Oszlopsorrend, oszlopszélesség és láthatóság user settingként automatikusan mentődjön.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p2">P2</span></td>
+              <td>Oszlopkezelés</td>
+              <td>Az Oszlopok menüben legyen "Nézet alaphelyzetbe állítása" funkció.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p2">P2</span></td>
+              <td>Oszlopkezelés</td>
+              <td>Ha minden opcionális oszlop ki van kapcsolva, a tábla ne csússzon szét és ne jelenjen meg üres, aránytalan felület.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p2">P2</span></td>
+              <td>Táblázatok</td>
+              <td>Sormagasság egységesítése minden táblában. A csoporttörzs kompakt sormagassága legyen az alap.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p2">P2</span></td>
+              <td>Űrlap kontrollok</td>
+              <td>Checkbox méretek egységesítése minden modulban, beleértve a validációs szabályok ablakot is.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>4. Számlatükör Import</h2>
+      <div class="section-body">
+        <table class="checklist">
+          <thead>
+            <tr>
+              <th>Kész</th>
+              <th>Prioritás</th>
+              <th>Terület</th>
+              <th>Feladat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Validáció</td>
+              <td>Sikeres validáció után ne nyíljon automatikus eredményablak. A zöld státuszbar jelezze: "Validálva, importálható".</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Validáció</td>
+              <td>Hibánál/piros állapotnál magából a státuszból legyen egyértelmű, hogy az import nem indítható. Részletek csak gombnyomásra nyíljon.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Validációs lista</td>
+              <td>A figyelmeztetés/hiba lista kapjon GL név oszlopot, hogy azonos GL név figyelmeztetésnél látszódjon a számla neve is.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Preview</td>
+              <td>A preview-ban a megfeleltetett oszlopok azonnal kapjanak színezést, amikor a mapping változik, nem csak validáció után.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Preview</td>
+              <td>A preview-ban minden importfájl oszlop látható legyen és jobbra is ki lehessen scrollozni.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Sorszabály</td>
+              <td>Sorszabály pipa változásakor azonnal frissüljenek a darabszámok: importálható, összesítő, kimaradó, inaktív.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p2">P2</span></td>
+              <td>Sorszabály</td>
+              <td>A "Kimaradó összesítő" felirat egyszerűsíthető vagy elhagyható, mert a kivétel logikája a pipa alapján egyértelmű.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Import gomb</td>
+              <td>Az "Import indítása" gomb a validációs gomb mellé kerüljön, és csak validált/importálható állapotban legyen érdemben használható.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p2">P2</span></td>
+              <td>Template</td>
+              <td>COA import template mentés, kiválasztás és alkalmazás ne mozgassa el az ablakot, és company-specifikus működés szerint tárolódjon.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>5. GL Import És Import Részletek</h2>
+      <div class="section-body">
+        <table class="checklist">
+          <thead>
+            <tr>
+              <th>Kész</th>
+              <th>Prioritás</th>
+              <th>Terület</th>
+              <th>Feladat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Számformátum</td>
+              <td>Minden GL import számmező két tizedessel jelenjen meg: mapping preview, validációs lista, import részletek és főkönyvi kivonat kapcsolat.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Fájlhiba</td>
+              <td>A Tartozik/Követel és Balance eltérés fájlhibaként állítsa meg az importot. A hiba a validációs listában legyen részletezve.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Validáció</td>
+              <td>A GL import mapping felületen ugyanolyan státuszbar legyen, mint a COA importnál: zöld/sárga/piros állapot, Részletek gombbal.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Validáció</td>
+              <td>A validációs popup ne listázza hosszan a hibákat automatikusan. Legyen rövid státusz, a részletek külön validációs listában.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Soft hiba</td>
+              <td>Az import részletekben legyen "Minden soft hiba OK" gomb, amely a kezelhető figyelmeztetéseket egyszerre elfogadja.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Gyors művelet</td>
+              <td>A validációs listában később legyen gyors művelet: hiányzó GL felvétele, számlatükör név frissítése, soft hiba OK.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Életciklus</td>
+              <td>Az import részletek tetején egyértelműen látszódjon: importálva, validálva, aktiválható, aktív főkönyvben, GL-ből törölve, felülírt.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Újraaktiválás</td>
+              <td>Ha a GL adatok törölve lettek, az import session maradjon meg "GL-ből törölve" állapotban, és újraaktiválható legyen validáció után.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p2">P2</span></td>
+              <td>Lista</td>
+              <td>GL import lista kapjon szűrőket: év, hónap, státusz, főkönyvben igen/nem, fájlnév, hibás/figyelmeztetéses.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>6. Számlatükör És Tömeges Módosítás</h2>
+      <div class="section-body">
+        <table class="checklist">
+          <thead>
+            <tr>
+              <th>Kész</th>
+              <th>Prioritás</th>
+              <th>Terület</th>
+              <th>Feladat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Validáció</td>
+              <td>Hiányzó Management riportkód, Konszi riportkód és BS/PL csak akkor legyen hiba, ha az adott GL-en van bármelyik hónapban érték.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Tömeges módosítás</td>
+              <td>A tömeges módosítás ablakból a külön "mező módosítása" pipák kikerülnek. Csak kitöltött mezők módosítanak.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Tömeges módosítás</td>
+              <td>Ha a felhasználó módosítást indít, de nincs tényleges változás, ne történjen adatírás. Üzenet: "Nem történt módosítás".</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Audit log</td>
+              <td>Egyedi és tömeges törzsadat módosításokról részletes audit log kell: ki, mikor, melyik cég, melyik tábla, melyik mező, miről mire változott.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p2">P2</span></td>
+              <td>Keresés</td>
+              <td>Wildcard keresés működjön: 53, 53*, *53, *53*. Ez minden szűrős listában egységes legyen.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>7. Report Törzsadatok</h2>
+      <div class="section-body">
+        <table class="checklist">
+          <thead>
+            <tr>
+              <th>Kész</th>
+              <th>Prioritás</th>
+              <th>Terület</th>
+              <th>Feladat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Management törzs</td>
+              <td>Report kód tábla és Csoport1/2/3 törzsek egységes kompakt táblázatos szerkesztőlogikával működjenek.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Konszi törzs</td>
+              <td>A Konszolidációs riport törzs ugyanazt a kinézetet és működést kapja, mint a Management riport törzs.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Mentés</td>
+              <td>Kód és megnevezés duplikációjánál látható hibaüzenet jelenjen meg. Ne csak villanjon vagy csendben ne mentsen.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Import template</td>
+              <td>Management riport törzs, Konszi riport törzs és csoporttörzsek kapjanak letölthető Excel/CSV template-et. A csoport template-ben legyen csoport oszlop.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p2">P2</span></td>
+              <td>BS/PL</td>
+              <td>Át kell gondolni, hogy BS/PL maradjon-e külön Management és Konszi törzsben is, vagy a számlatükör/riportkód legyen az egyetlen forrás.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p2">P2</span></td>
+              <td>Company scope</td>
+              <td>A report törzsadatok company-specifikusak legyenek. Ne globális törzsadatként működjenek.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>8. Főkönyvi Kivonat</h2>
+      <div class="section-body">
+        <table class="checklist">
+          <thead>
+            <tr>
+              <th>Kész</th>
+              <th>Prioritás</th>
+              <th>Terület</th>
+              <th>Feladat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Adatforrás</td>
+              <td>Csak aktív GL import sessionből származó főkönyvi adat jelenjen meg.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Havi import info</td>
+              <td>Hónap fejlécére kattintva vagy hoverre jelenjen meg az aktív import azonosítója, fájlnév, importáló és aktiválás dátuma.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Számformátum</td>
+              <td>Főkönyvi kivonat számai egységesen kezeljék a globális egységet, de az alapadat továbbra is 1-es egységben maradjon.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Scroll</td>
+              <td>12 havi nézetben vízszintes és függőleges scroll, fix havi sorrend, stabil fejléc.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p2">P2</span></td>
+              <td>Export</td>
+              <td>CSV export után később Excel export is kell formázással.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>9. Admin, Naplózás És Adatkarbantartás</h2>
+      <div class="section-body">
+        <table class="checklist">
+          <thead>
+            <tr>
+              <th>Kész</th>
+              <th>Prioritás</th>
+              <th>Terület</th>
+              <th>Feladat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Naplók</td>
+              <td>Naplók legyenek típusonként elkülönítve: rendszer, import, validáció, törzsadat/audit, admin, biztonság.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Naplók</td>
+              <td>SA és beégetett lenkei.peter láthassa az összes cég összes naplóját, de normál nézetben naplók company-specifikusak legyenek.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Adatkarbantartás</td>
+              <td>Törlés után az áttekintés/dashboard automatikusan frissüljön, ne kelljen elkattintani és vissza.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Adatkarbantartás</td>
+              <td>Az aktív cég / aktív év törlése egyértelműen scope-olt legyen. Company törlés külön a Cég menüben, teljes company id alatti adatkörrel.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p2">P2</span></td>
+              <td>Jogosultság</td>
+              <td>Globális lenkei.peter tartalék user sehol ne jelenjen meg, de SA szintű bejelentkezésként működjön.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>10. Admin És Rendszerbiztonság - Riport Előtti Blokkoló Kör</h2>
+      <div class="section-body">
+        <div class="decision">
+          <strong>Döntés:</strong> riportfejlesztés csak akkor induljon, ha az alap admin, session, jogosultság és biztonsági beállítások stabilan működnek. A következő kör fókusza: jogosultsági mátrix, naplózás keményítése, SMTP/email, session-security finomhangolás és 2FA-kompatibilis struktúra.
+        </div>
+        <p class="note"><strong>Frissítve: 2026-05-21.</strong> Jogosultsági mátrix első köre elkészült külön Admin ablakban, új jogosultsági táblákkal és backend guarddal az admin, beállítás, backup, napló, licensz, validáció, riport/trial balance, GL import, COA, budget, árfolyam és riport törzsadat fő útvonalain. A mátrix UI-ban a nem értelmezett műveletek checkbox helyett kötőjelet kapnak; SA-ként a magasabb alap szerepkörű jogok is adhatók, checkbox mellett ADMIN/SA minimum jelöléssel. Az explicit SA által mentett mátrixjog backend oldalon is felülírja a user alap szerepkörét. A frontend menü, modulindító és fő műveleti gombok a bootstrapben kapott effektív jogosultságokból dolgoznak. A naplózás keményítése első köre is elkészült: user, cég, beállítás, címke, validációs szabály, summary rule és jogosultság módosítások olvasható régi érték -> új érték auditot kapnak; session revoke és jelszó reset session zárás részletezettebb auditként kerül be. Az SMTP beállításokhoz teszt email küldés, validáció és audit naplózás készült, a jelszó auditban maszkolva marad, a mentett SMTP jelszó és a licensz secret pedig nem kerül vissza a böngészőbe. Az email értesítések első köre is elkészült: címzettlista, eseménykapcsolók és teszt értesítés az Email beállítások alatt; bekötve az automatikus backup hiba, lockolt user, restore és jogosultság/security esemény, a kritikus import hiba kapcsoló előkészítve.</p>
+        <div class="priority-order">
+          <h3>Aktuális prioritási sorrend riport előtt</h3>
+          <ol>
+            <li><strong>P0 - Session/security beállítások:</strong> a beállításokban megadott timeout, session lejárat, hibás login limit, zárolási idő és automatikus feloldás tényleges backend összekötése az aktív session listával.</li>
+            <li><strong>P0 - Fiókok és zárolási UX:</strong> zárolt fiókok, login kísérletek, kézi feloldás, státuszok és user session kiléptetés ellenőrzése/rendezése.</li>
+            <li><strong>P1 - Napló szűrés lezáró audit:</strong> wildcard, ékezetfüggetlen keresés, minden oszlop, stabil fókusz és látható/szűrt naplók törlése; a checklist ellentmondó státuszainak tisztítása.</li>
+            <li><strong>P0 - Címkerendszer audit:</strong> hardcode-olt feliratok átnézése, a katalógusban már szereplő címkék tényleges bekötése.</li>
+            <li><strong>P0 - Nyelvválasztó:</strong> magyar/angol váltás tényleges használata, mentése és UTF-8/ékezethelyesség ellenőrzése.</li>
+            <li><strong>P1 - Téma:</strong> nappali/éjszakai mód úgy, hogy a táblázatok, checkboxok, státusz badge-ek, ablakfejlécek és alsó státuszsáv ne törjenek.</li>
+            <li><strong>P2 - 2FA előkészítés:</strong> TOTP-kompatibilis auth/session struktúra, admin reset helye, recovery kódok és audit előkészítése teljes bekényszerítés nélkül.</li>
+            <li><strong>P0 - Riport előfeltételek:</strong> valid COA, aktív GL import, riportkód-hiány validáció csak értékes GL-ekre, Management/Konszi riport törzs feltöltés-validálás-COA hozzárendelés.</li>
+            <li><strong>P1 - Riportépítés:</strong> Management riport, Konszi riport, subtotal/BS-PL/havi/YTD/éves összesen logika és Excel export.</li>
+          </ol>
+        </div>
+        <table class="checklist">
+          <thead>
+            <tr>
+              <th>Kész</th>
+              <th>Prioritás</th>
+              <th>Terület</th>
+              <th>Feladat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Session</td>
+              <td>Automatikus kijelentkezés inaktivitás alapján, abszolút session lejárat, last seen frissítés, lejárt vagy visszavont session tiltása.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Aktív sessionök</td>
+              <td>Admin ablak az aktív munkamenetekhez: user, role, cég, belépés, utolsó aktivitás, lejárat, IP/user agent, kiléptetés userenként vagy sessionönként.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Login védelem</td>
+              <td>Sikertelen belépési limit, fiók zárolása, automatikus feloldás beállítható idő után, kézi admin feloldás, minden esemény security naplóban.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Felhasználók</td>
+              <td>User módosítás, aktiválás/inaktiválás, zárolt állapot kijelzése, feloldás, jelszó reset, kötelező jelszócsere, user sessionök kiléptetése.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Cégek</td>
+              <td>Cég szerkesztése, aktív/inaktív állapot, alapdeviza és megjelenítési adatok előkészítése, logo mező/feltöltés előkészítése, company törlés dupla védelemmel.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Számformátum</td>
+              <td>Rendszer szintű számformátum: ezres elválasztó, tizedesjel, GL tizedes, riport tizedes, árfolyam tizedes, negatív szám formátum.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Idő és időzóna</td>
+              <td>Programidő beállítása gép órája vagy timeserver alapján, Windows-szerű időzóna választó, automatikus nyári időszámítás kapcsoló, timeserver szinkron állapot, sikeres/sikertelen elérés visszajelzése és backup időbélyeg bekötése.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Jogosultság</td>
+              <td>Jogosultsági mátrix külön Admin ablakban elkészült. Modul + művelet szinten kezeli: megtekintés, import, validálás, aktiválás, módosítás, törlés, export, admin és restore jogosultság.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Cégszintű jogosultság</td>
+              <td>User-cég hozzárendelés első köre elkészült: láthatja/kezelheti jogok, cégváltó és fő admin/riport/GL/COA/budget útvonalak figyelembe veszik. A további riport-specifikus részjogok a riportépítéskor finomíthatók.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Jogosultság backend</td>
+              <td>Backend guard első és második köre elkészült az admin, beállítás, backup, napló, licensz, validáció, riport/trial balance, GL import, COA, budget, árfolyam, import template, sorszabály és riport törzsadat fő műveleteire. SA nem szűkíthető mátrixszal, saját mátrix mentése tiltott, a globális lenkei.peter tartalék SA nem jelenik meg normál userként.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>SMTP</td>
+              <td>Email/SMTP beállítás külön admin ablakban: host, port, TLS/SSL, user, jelszó, feladó és teszt email elkészült. A teszt eredménye egyértelmű visszajelzést ad, siker és hiba esetén is admin/audit naplóba kerül; az SMTP jelszó az audit részletben maszkolt, a kliens felé nem kerül visszaküldésre, üres mezővel a mentett jelszó marad. A settings API a licensz secretet is maszkolja.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Email értesítések</td>
+              <td>Email értesítések első köre elkészült: címzettlista, eseménykapcsolók és teszt értesítés az Email beállítások alatt. Bekötve: automatikus backup hiba, lockolt user, restore és jogosultság/security esemény; kritikus import hiba kapcsoló előkészítve.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Naplózás</td>
+              <td>Security/admin audit keményítése első köre elkészült: user, cég, törzsadat, címke, validációs szabály, summary rule, beállítás és jogosultság változásoknál régi érték -> új érték mentés van. Login hiba, lock/unlock, session revoke, restore és naplótörlés külön audit/security eseményként szerepel.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Napló szűrés</td>
+              <td>Napló szűrés tovább finomítása: wildcard, ékezetfüggetlen keresés, minden oszlop, stabil fókusz, szűrt törlésnél pontosan a látható/szűrt halmaz kezelése.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Session beállítások</td>
+              <td>Automatikus kijelentkezési idő, inaktív session kezelés, invalid login limit, zárolási idő és automatikus feloldás legyen összekötve a Beállításokban megadott értékekkel és az aktív session listával.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Backup</td>
+              <td>Automatikus backup egyszeri/napi/heti/havi ütemezéssel, rendezett backup felület, állítható és tallózható mentési útvonal, retention beállítás, backup fájl letöltés, útvonal másolás, SA restore jogosultság, tallózott restore fájlból, restore előtti biztonsági mentés, védett törlés és cégtörlés előtti opcionális automatikus mentés.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><span class="tag p2">P2</span></td>
+              <td>2FA</td>
+              <td>TOTP alapú 2FA előkészítése úgy, hogy később ne kelljen szétszedni az auth/session struktúrát: SA/Admin kötelező mód, recovery kód, 2FA reset adminból, tartalék SA külön kezelése és naplózása.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>11. Beállítások, Nyelv És Felület Egységesítés</h2>
+      <div class="section-body">
+        <div class="decision">
+          <strong>Döntés:</strong> a riport fejlesztése előtt az admin és beállítási felületeknek egységes szerkezetben, stabil táblázatokkal, magyar/angol címkerendszerrel és használható témaváltással kell működniük. A Beállítások ablakban csak valódi rendszerbeállítási fülek maradnak; a Cégek, Felhasználók és Munkamenetek külön admin ablakok.
+        </div>
+        <p class="note"><strong>Frissítve: 2026-05-20.</strong> Lezárt commitok: <code>7164e21</code> admin táblák/címkék rendezése, <code>f10faf8</code> napló szűrés és validációs szabályok UX javítása.</p>
+        <table class="checklist">
+          <thead>
+            <tr>
+              <th>Kész</th>
+              <th>Prioritás</th>
+              <th>Terület</th>
+              <th>Feladat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Beállítások struktúra</td>
+              <td>A Beállítások ablakból kikerültek a felesleges fő fülsávok. A Beállítások alatt Rendszer, Email beállításai, Törzsadatok, Címkék és nyelv maradt; a Cégek, Felhasználók és Munkamenetek külön admin ablakban nyílnak.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Beállítások UX</td>
+              <td>A felesleges felső fülsávok kerüljenek ki a beállítások, vállalatok és felhasználók felületeiről ott, ahol már külön belső navigáció vagy ablakcím van. A kezdő ablakméret minden admin ablaknál akkora legyen, hogy az alap tartalom ne essen szét.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Vállalatok</td>
+              <td>A Vállalatok ablak normalizált méretet, rendezett gombelhelyezést és állítható oszlopszélességet kapott. A logo feltöltés megmaradt; külön logo törlés vagy további cégmódosítási naplózás igény esetén külön feladatként kezelendő.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Fiókok</td>
+              <td>Felhasználók és aktív sessionök egységes táblázatos felületet kaptak állítható oszlopokkal. Zárolt fiókok és login kísérletek külön áttekintése még ellenőrizendő/rendezendő.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Naplók</td>
+              <td>Naplókban minden adat-oszlopra van fejléces szűrés, wildcard támogatással és ékezetfüggetlenebb kereséssel. A látható naplók törlése megerősítéssel fut, és maga a törlés is audit/security naplóba kerül.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Validációs szabályok</td>
+              <td>A validációs szabályok ablakban nagyobb és középre igazított checkbox/select kontrollok vannak. A technikai kulcsok nem jelennek meg, és a két tábla Szint oszlopa vizuálisan egységesebb lett.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Címkerendszer</td>
+              <td>Elkészült a címke admin felület modul/menü bontással, zárolt kulccsal, szerkeszthető magyar/angol címkével és export/import funkcióval. Az alap címkekatalógus 182 elemre bővült.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Címkerendszer audit</td>
+              <td>A teljes alkalmazásban még át kell nézni a hardcode-olt feliratokat, és a címkerendszerrel ténylegesen be kell kötni azokat a szövegeket is, amelyek most még csak katalógusban szerepelnek.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Nyelv</td>
+              <td>Legyen nyelvválasztó legalább magyar és angol nyelvvel. A kiválasztott nyelv user vagy rendszer beállításként tárolódjon, és minden új UI címke UTF-8 kompatibilisen, ékezethelyesen jelenjen meg.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Téma</td>
+              <td>Nappali és éjszakai mód legyen választható. A témaváltás ne törje a táblázatokat, checkboxokat, státusz badge-eket, ablakfejléceket és alsó státuszsávot.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" checked></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Táblázatok</td>
+              <td>Központi oszlopszélesség-állítás került a táblázatokhoz, a régebbi kézzel épített admin/menü táblákra is automatikusan ráül. A checkbox/státusz igazítást és sormagasságot a validációs és admin táblákon külön is finomítottuk.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>12. Riport Építés Előfeltételei</h2>
+      <div class="section-body">
+        <div class="decision">
+          <strong>Javasolt sorrend:</strong> előbb admin/rendszerbiztonság, adatbiztonság és validáció, utána törzsadat és főkönyvi kivonat stabilizálása, csak ezután jöjjön a tényleges Management/Konszi riport felület.
+        </div>
+        <table class="checklist">
+          <thead>
+            <tr>
+              <th>Kész</th>
+              <th>Prioritás</th>
+              <th>Terület</th>
+              <th>Feladat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Adatalap</td>
+              <td>Legyen aktív, valid COA a cégben, duplikált GL szám nélkül, rendezett import sorrenddel.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Adatalap</td>
+              <td>Legyen aktív GL import legalább egy teszthónapra, fájlhiba nélkül, egyértelmű import azonosítóval.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Adatalap</td>
+              <td>A főkönyvi kivonat validációja tudja jelezni a riportkód hiányokat, de csak értékes GL-ekre.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><span class="tag p0">P0</span></td>
+              <td>Riport törzs</td>
+              <td>Management riport törzs és Konszi riport törzs legyen feltölthető, validálható, és COA-hoz hozzárendelhető.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Riport logika</td>
+              <td>Management és Konszi riport külön struktúrában készüljön. Mindkettő saját riportkódokra épüljön.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Riport logika</td>
+              <td>Subtotal sorok, BS/PL bontás, havi és YTD logika, éves összesen, valamint ellenőrző sorok pontos specifikációja kell.</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"></td>
+              <td><span class="tag p1">P1</span></td>
+              <td>Export</td>
+              <td>Riportból Excel export kell majd, nem csak CSV. Formázás, számformátum és egység kijelzés legyen konzisztens.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>13. Későbbi, Nem Riport-Blokkoló Kör</h2>
+      <div class="section-body grid-two">
+        <div>
+          <p class="phase">Adatkapcsolatok</p>
+          <ul>
+            <li>MNB árfolyam letöltés bekötése.</li>
+            <li>Árfolyam import/validáció finomítása.</li>
+            <li>Budget / Forecast import módszertan GL import mintára.</li>
+          </ul>
+        </div>
+        <div>
+          <p class="phase">Üzemeltetés</p>
+          <ul>
+            <li>Backup / restore későbbi finomítás: opcionális mappa megnyitás, titkosított backup és email riasztás.</li>
+            <li>Évváltás folyamata.</li>
+            <li>Windows szolgáltatás vagy egykattintásos indító.</li>
+            <li>Jogosultsági mátrix riport utáni finomhangolása, ha a riport jogosultságokhoz további részletszabály kell.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Készült a következő fejlesztési kör előkészítéséhez. A checkboxok böngészőben kézzel jelölhetők, de önmagukban nem mentenek állapotot.
+  </footer>
+</body>
+</html>
